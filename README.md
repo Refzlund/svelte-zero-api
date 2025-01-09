@@ -17,7 +17,7 @@ A complete rewrite of SvelteKit-zero-API
 
 - Upgrades to V1 features
   - QuerySpread now accessed immediately via `event.query`
-  - The term "endpoint pipe functions" should be considered "endpoint middlewares", as that's what they are. Massive iomprovement upon this concept.
+  - The term "endpoint pipe functions" should be considered "endpoint middlewares", as that's what they are. Massive improvement upon this concept.
   - Improvements to how to create generic endpoints
   - The client API call chains are now independent from one another, can throw errors inside them independently, and .$. returns an array of promises.
   - Better classes to see if a function is a proxy of sveltekit-zero-api (ex. `req instanceof KitRequest`)
@@ -103,4 +103,14 @@ const config: UserConfig = {
 +const proxy = createAPIProxy() as GeneratedAPI as APIRoutes
 +const api = proxy.api
 +export default api
+```
+
+### 3. Update usage of event.request.json()
+```diff
+- const body = await event.request.json()
+- // { subject: "Foo", content: "bar" }
+
++ const data = await event.request.json()
++ // { body: { subject: "Foo", content: "bar" } }
++ const body = data.body
 ```

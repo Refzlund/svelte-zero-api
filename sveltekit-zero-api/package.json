@@ -30,6 +30,7 @@
 		"vite": "^6.0.0"
 	},
 	"devDependencies": {
+		"@sveltejs/kit": "^2.15.2",
 		"@sveltejs/package": "^2.3.7",
 		"@types/bun": "^1.1.13",
 		"@types/node": "^20.9.0",
