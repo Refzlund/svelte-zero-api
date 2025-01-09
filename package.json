@@ -1,72 +1,12 @@
 {
-	"name": "sveltekit-zero-api",
-	"description": "Provides type-safety between front- and backend of your SvelteKit project",
-	"version": "0.15.8",
 	"scripts": {
-		"dev": "set NODE_ENV=zeroapi && vite dev",
-		"package": "svelte-package -w",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"app": "cd ./sveltekit-zero-api && bun ./build.ts && cd ../app && bun dev",
+		"app:dev": "cd ./app && bun dev"
 	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.15.5",
-		"@sveltejs/package": "^2.0.2",
-		"@types/node": "^18.15.11",
-		"chokidar": "^3.5.3",
-		"svelte": "^3.58.0",
-		"svelte-check": "^3.2.0",
-		"svelte-preprocess": "^5.0.3",
-		"svelte2tsx": "^0.6.11",
-		"tslib": "^2.5.0",
-		"vite": "^4.2.1",
-		"typescript": "^5.0.4"
-	},
-	"peerDependencies": {
-		"@sveltejs/kit": "^1.5.5",
-		"svelte": "^3.55.1",
-		"typescript": ">=5.0.0"
-	},
-	"repository": "github:refzlund/sveltekit-zero-api",
-	"homepage": "https://github.com/Refzlund/sveltekit-zero-api",
-	"bugs": {
-		"url": "https://github.com/Refzlund/sveltekit-zero-api/issues"
-	},
-	"type": "module",
 	"license": "MIT",
-	"module": "esnext",
-	"files": [
-		"dist"
-	],
-	"main": "dist/index.js",
-	"exports": {
-		".": "./dist/index.js",
-		"./http": "./dist/http.js",
-		"./api": "./dist/api/index.js",
-		"./z": "./dist/z.js",
-		"./helpers": "./dist/helpers.js"
-	},
-	"typesVersions": {
-		"*": {
-			"http": [
-				"dist/http.d.ts"
-			],
-			"api": [
-				"dist/api/index.d.ts"
-			],
-			"z": [
-				"dist/z.d.ts"
-			],
-			"helpers": [
-				"dist/helpers.d.ts"
-			]
-		}
-	},
-	"keywords": [
-		"sveltekit",
-		"api",
-		"endpoint",
-		"typesafety",
-		"typescript"
+	"workspaces": [
+		"./app",
+		"./sveltekit-zero-api",
+		"./svelte-data"
 	]
 }

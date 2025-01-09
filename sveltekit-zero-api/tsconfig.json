@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
+		"noImplicitAny": false,
+		"strict": true,
+		"allowJs": true,
+		"checkJs": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler"
+	},
+	"exclude": ["npm", "svelte.config.js"]
+}

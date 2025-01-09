@@ -1,25 +1,64 @@
-<p align="center">
-    <img width="542" src="https://raw.githubusercontent.com/Refzlund/sveltekit-zero-api/master/SvelteKit%20Zero%20API.png" alt="SurrealDB Icon">
-</p>
-<h3 align="center">Seamless type-safety   means   better developer experience.</h3>
+# SvelteKit-zero-API 2.0.0
 
-<p align="center">
-	<img src="https://badge.fury.io/js/sveltekit-zero-api.svg">
-	 
-	<img src="https://img.shields.io/npm/dt/sveltekit-zero-api.svg">
-</p>
+## Table of Contents
+1. [About the Project](#about-the-project)
+2. [Quick Start Guide](#quick-start-guide)
+3. [V2 Migration Guide](#v2-migration-guide)
 
-## Quick Start
+## About the Project
+A complete rewrite of SvelteKit-zero-API
 
-<p align="center">
-	<code>npm i -D sveltekit-zero-api</code>
-	 / 
-	<code>pnpm add -D sveltekit-zero-api</code>
-</p>
+- All existing V1 features
+  - Typed endpoints
+  - Generic endpoints
+  - Slugs
+  - QuerySpread
+  - Endpoint "pipe"
 
+- Upgrades to V1 features
+  - QuerySpread now accessed immediately via `event.query`
+  - The term "endpoint pipe functions" should be considered "endpoint middlewares", as that's what they are. Massive iomprovement upon this concept.
+  - Improvements to how to create generic endpoints
+  - The client API call chains are now independent from one another, can throw errors inside them independently, and .$. returns an array of promises.
+  - Better classes to see if a function is a proxy of sveltekit-zero-api (ex. `req instanceof KitRequest`)
+  - Complex slugs are now supported
+  - Endpoints with bring-your-own (BYO) validation
+  - Responses being instanceof `Error` to allow `throw new OK(...)` in Vite and outside of Vite
+
+- New functionality
+  - A `hooks.server.ts` zero-api options: Ex. run a function (like waiting for db connection) before reaching endpoints
+  - Support XHR, SSE (Server-side events), ReadableStream, FormData, streamed data
+  - Use backend validation for frontend validation
+  - Endpoint functions: Call endpoints like they're a normal function; `let result = await api.someFn('a', 123).catch(...)`
+  - FormAPI: Forms made stupidly simple, powered by runes, sveltekit-zero-api API and validation of your choosing (BYO)
+  - StatefulAPI: An async task process that runs an API based off a cooldown or a warmup
+  - RunesAPI: A client data management layer powered by Svelte 5 Runes and sveltekit-zero-api.
+  - `npx sveltekit-zero-api`: Include it into your project effortless
+  - Testing: You can leverage `new FakeKitEvent()` to create a KitEvent, for testing endpoints.
+  - Call endpoints on server/in tests; you can do `let [promise] = GET(event).use(body, { query: {...} }).OK(...).$.success(...)` on the server/in tests.
+
+It's a massive update. I'll include a website for documentation, for a more pleasing dev experience in this update.
+
+When ready, I'll make a video or two show-casing both old and new.
+
+## Quick Start Guide
+
+
+### 1. Add the package to your project
+```bash
+npm i -D sveltekit-zero-api
+```
+or
+
+```bash
+pnpm add -D sveltekit-zero-api
+```
+
+
+### 2. Add the vite plugin
 ```ts
 // vite.config.ts
-import { zeroAPI } from 'sveltekit-zero-api'
+import zeroAPI from 'sveltekit-zero-api/vite'
 
 const config: UserConfig = {
 	plugins: [
@@ -27,52 +66,41 @@ const config: UserConfig = {
 		zeroAPI()
 	]
 }
+```
 
+### 2. Update gitignore
+```
 // .gitignore
 **/sveltekit-zero-api.d.ts
 ```
 
-<h2><img height="24" src="https://raw.githubusercontent.com/sveltejs/branding/c4dfca6743572087a6aef0e109ffe3d95596e86a/svelte-logo.svg">  What is SvelteKit Zero API?</h2>
-<p>
-<b>Zero API</b> attempts to sow the gap between the frontend and backend. This includes typing backend response codes and their content and dealing with them effectively using <a href="https://github.com/Refzlund/sveltekit-zero-api/wiki/2.-Frontend#callbacks">callback functions</a>. This may also include error handling. 
-</p>
+## V2 Migration Guide
 
-- Body and query is typed seemlessly in both frontend, and endpoints
-- Queries are easier to use with querySpread which supports objects as query parameters
-- Endpoint routes are automatically typed
-- [Generic endpoints](https://github.com/Refzlund/sveltekit-zero-api/wiki/1.-Backend#generic-endpoints)
-- [Typed endpoint pipeline](https://github.com/Refzlund/sveltekit-zero-api/wiki/3.-Endpoint-Pipe-function)
-- The returned content of endpoints are typed
-- Supports slugged routes
-- Can be used in the page `Load` function
-- You can type-define variables with endpoint responses
-- Has handy backend utility functions; [querySpread](https://github.com/Refzlund/sveltekit-zero-api/wiki/1.-Backend#queryspread) and [Error Handling](https://github.com/Refzlund/sveltekit-zero-api/wiki/1.-Backend#error-handling)
 
-![Assigning variables directly](https://github.com/Refzlund/sveltekit-zero-api/blob/master/assign-var.gif)
-![Intellisense with API calls](https://github.com/Refzlund/sveltekit-zero-api/blob/master/frontend-intellisense.gif)
+### 1. vite.config.ts
+```diff
+- import { zeroAPI } from 'sveltekit-zero-api'
++ import zeroAPI from 'sveltekit-zero-api/vite'
 
----
+const config: UserConfig = {
+	plugins: [
+		sveltekit(),
+		zeroAPI()
+	]
+}
+```
 
-<p align="center">
-Installation, usage and utility types can all be fond on the GitHub Wiki
-</p>
+### 2. src/api.ts | src/lib/shared/api.ts
+```diff
+- import { createZeroApi } from "sveltekit-zero-api/api"
+- import type { GeneratedAPI } from "./sveltekit-zero-api"
++ import { createAPIProxy } from "sveltekit-zero-api/client"
++ import type { APIRoutes } from "./api.d"
 
-<h3 align="center">
-	<a href="https://github.com/Refzlund/sveltekit-zero-api/wiki/0.-Get-Started">Getting Started</a>
-</h3>
-<h3 align="center">
-	<a href="https://github.com/Refzlund/sveltekit-zero-api/wiki/1.-Backend">Backend - Setting up endpoints</a>
-</h3>
-<h3 align="center">
-	<a href="https://github.com/Refzlund/sveltekit-zero-api/wiki/2.-Frontend">Frontend - Using the API</a>
-</h3>
+-const routes = createZeroApi() as GeneratedAPI
+-export default routes.api
 
-<br>
-<br>
-
-## Acknowledgments
-
-Thank you [ymzuiku](https://github.com/ymzuiku) for igniting the initial concept and codebase [svelte-zero-api](https://github.com/ymzuiku/svelte-zero-api). And naturally, a big thanks to the Vite and Svelte family for the worlds best framework!💘
-
-<br>
-<br>
++const proxy = createAPIProxy() as GeneratedAPI as APIRoutes
++const api = proxy.api
++export default api
+```

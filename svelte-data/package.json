@@ -1,0 +1,14 @@
+{
+	"name": "svelte-data",
+	"version": "0.0.0-next.1",
+	"type": "module",
+	"devDependencies": {
+		"sveltekit-zero-api": "workspace:*"
+	},
+	"peerDependencies": {
+		"sveltekit-zero-api": "^2"
+	},
+	"exports": {
+		".": "./src/index.ts"
+	}
+}

@@ -1,0 +1,47 @@
+{
+	"name": "sveltekit-zero-api",
+	"description": "Your package.",
+	"version": "2.0.0-next.1",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Refzlund/sveltekit-zero-api.git"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Refzlund/sveltekit-zero-api/issues"
+	},
+	"type": "module",
+	"scripts": {
+		"package": "bun ./build.ts",
+		"fix-imports": "ts-add-js-extension --dir=npm"
+	},
+	"exports": {
+		".": "./src/index.ts",
+		"./client": "./src/client/index.ts",
+		"./server": "./src/server/index.ts",
+		"./http": "./src/server/http.ts",
+		"./vite": "./src/server/vite.ts",
+		"./stream": "./src/utils/stream.ts"
+	},
+	"peerDependencies": {
+		"@sveltejs/kit": "^2.8.0",
+		"svelte": "^5.1.12",
+		"typescript": "^5.6.3",
+		"vite": "^6.0.0"
+	},
+	"devDependencies": {
+		"@sveltejs/package": "^2.3.7",
+		"@types/bun": "^1.1.13",
+		"@types/node": "^20.9.0",
+		"@typeschema/main": "^0.14.1",
+		"ts-add-js-extension": "^1.6.5",
+		"zod": "^3.23.8",
+		"zod-to-json-schema": "^3.23.5"
+	},
+	"dependencies": {
+		"@sveltejs/vite-plugin-svelte": "^5.0.1",
+		"svelte": "^5.11.0",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.3"
+	}
+}
